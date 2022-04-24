@@ -1,0 +1,65 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  min-height: 100vh;
+  min-width: 100vw;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.app-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.app-container header {
+  position: fixed;
+  top: 0;
+}
+
+.app-container footer {
+  position: fixed;
+  bottom: 0;
+  margin-bottom: 2rem;
+}
+
+.circle {
+  transition: 300ms;
+}
+
+.material-symbols-rounded {
+  font-variation-settings:
+  'FILL' 1,
+  'wght' 400,
+  'GRAD' 5,
+  'opsz' 48
+}
+
+.progress-item {
+  font-size: 28px;
+}
+
+.material-symbols-rounded.neutral {
+  color: lightgray;
+}
+.material-symbols-rounded.succeed {
+  color: lightgreen;
+}
+.material-symbols-rounded.failed {
+  color: pink;
+}
+
+.app-container .hints {
+  font-size: 28px;
+  font-family: 'JetBrains Mono', monospace;
+  max-width: 1300px;
+}

@@ -1,0 +1,16 @@
+// run
+initProgress(20);
+
+function initProgress(progressBlocks) {
+  const progressContainer = document.querySelector(".progress");
+  for (let i = 0; i < progressBlocks; i++) {
+    const progressGroup = document.createElement("div");
+    for (let n = 0; n < 10; n++, i++) {
+      const progressItem = document.createElement("span");
+      progressItem.classList.add("material-symbols-filled");
+      progressItem.innerText = "crop_square";
+      progressGroup.appendChild(progressItem);
+    }
+    progressContainer.appendChild(progressGroup);
+  }
+}
