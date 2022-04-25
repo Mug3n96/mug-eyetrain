@@ -1,7 +1,7 @@
 // run
 
 const cycles = 20;
-const minScale = 0.05;
+const minScale = 0.1;
 const maxScale = 5;
 
 let random = 0;
