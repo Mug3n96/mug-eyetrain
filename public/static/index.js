@@ -4,7 +4,6 @@ const cycles = 20;
 const minScale = 0.1;
 const maxScale = 5;
 
-let random = 0;
 
 const circle = document.querySelector("#app .circle");
 // 0 = right, 90 = down, 180 = left, 270 = up
@@ -29,8 +28,11 @@ function initPregame(cycles) {
   hintsContainer.appendChild(hint);
 
   const circle = document.querySelector("#app .circle");
+  let random = {
+    value: 0
+  };
 
-  transform(minScale * (1 + 2 * factor));
+  transform(minScale * (1 + 2 * factor), random);
 
   document.addEventListener(
     "keyup",
@@ -45,9 +47,11 @@ function initPregame(cycles) {
 function initGame(cycles) {
 
   let scale = 1;
-  random = 0;
+  let random = {
+    value: 0
+  };
 
-  transform(scale);
+  transform(scale, random);
 
   let finishedCycles = 0;
 
@@ -57,16 +61,16 @@ function initGame(cycles) {
 
     switch (button) {
       case "d":
-        if (direction[random] === 0) didSucceed = true;
+        if (direction[random.value] === 0) didSucceed = true;
         break;
       case "s":
-        if (direction[random] === 90) didSucceed = true;
+        if (direction[random.value] === 90) didSucceed = true;
         break;
       case "a":
-        if (direction[random] === 180) didSucceed = true;
+        if (direction[random.value] === 180) didSucceed = true;
         break;
       case "w":
-        if (direction[random] === 270) didSucceed = true;
+        if (direction[random.value] === 270) didSucceed = true;
         break;
     }
 
@@ -75,7 +79,7 @@ function initGame(cycles) {
     } else {
       scale = scale * (1 + factor);
     }
-    transform(scale);
+    transform(scale, random);
     colorProgress(didSucceed, finishedCycles);
     finishedCycles++;
     if (finishedCycles > 19) finishGame();
@@ -109,13 +113,13 @@ function colorProgress(didSucceed, indexOfProgressItem) {
   }
 }
 
-function transform(scale) {
+function transform(scale, random) {
   if (scale < minScale) scale = minScale;
   if (scale > maxScale) scale = maxScale;
   const min = 0,
     max = 3;
-  random = Math.floor(Math.random() * (max - min + 1)) + min;
-  circle.style.transform = `scale(${scale}) rotate(${direction[random]}deg)`;
+  random.value = Math.floor(Math.random() * (max - min + 1)) + min;
+  circle.style.transform = `scale(${scale}) rotate(${direction[random.value]}deg)`;
 }
 
 function finishGame() {
