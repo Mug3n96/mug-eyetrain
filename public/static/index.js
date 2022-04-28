@@ -60,16 +60,20 @@ function initGame(cycles) {
     let didSucceed = false;
 
     switch (button) {
-      case "d":
+      case "d": 
+      case "ArrowRight":
         if (direction[random.value] === 0) didSucceed = true;
         break;
-      case "s":
+      case "s": 
+      case "ArrowDown":
         if (direction[random.value] === 90) didSucceed = true;
         break;
-      case "a":
+      case "a": 
+      case "ArrowLeft":
         if (direction[random.value] === 180) didSucceed = true;
         break;
-      case "w":
+      case "w": 
+      case "ArrowUp":
         if (direction[random.value] === 270) didSucceed = true;
         break;
     }
