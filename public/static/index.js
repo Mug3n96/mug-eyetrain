@@ -1,14 +1,17 @@
 // run
-
-const cycles = 20;
+const cycles = 3;
 const minScale = 0.1;
 const maxScale = 5;
-
 
 const circle = document.querySelector("#app .circle");
 // 0 = right, 90 = down, 180 = left, 270 = up
 const direction = [0, 90, 180, 270];
 const factor = 0.5;
+
+const counter = {
+  succeed: 0,
+  failed: 0,
+};
 
 initProgress(cycles);
 initPregame(cycles);
@@ -29,7 +32,7 @@ function initPregame(cycles) {
 
   const circle = document.querySelector("#app .circle");
   let random = {
-    value: 0
+    value: 0,
   };
 
   transform(minScale * (1 + 2 * factor), random);
@@ -44,11 +47,19 @@ function initPregame(cycles) {
   );
 }
 
+function updateFinishScreen(succeed, failed) {
+  const finishSucceedNumber = document.querySelector("#finish_succeed_numb");
+  const finishFailedNumber = document.querySelector("#finish_failed_numb");
+
+  finishSucceedNumber.innerText = succeed;
+  finishFailedNumber.innerText = failed;
+}
+
 function initGame(cycles) {
 
   let scale = 1;
   let random = {
-    value: 0
+    value: 0,
   };
 
   transform(scale, random);
@@ -60,41 +71,44 @@ function initGame(cycles) {
     let didSucceed = false;
 
     switch (button) {
-      case "d": 
+      case "d":
       case "ArrowRight":
         if (direction[random.value] === 0) didSucceed = true;
         break;
-      case "s": 
+      case "s":
       case "ArrowDown":
         if (direction[random.value] === 90) didSucceed = true;
         break;
-      case "a": 
+      case "a":
       case "ArrowLeft":
         if (direction[random.value] === 180) didSucceed = true;
         break;
-      case "w": 
+      case "w":
       case "ArrowUp":
         if (direction[random.value] === 270) didSucceed = true;
         break;
     }
 
     if (didSucceed) {
+      counter.succeed++;
       scale = scale * (1 - factor);
     } else {
+      counter.failed++;
       scale = scale * (1 + factor);
     }
     transform(scale, random);
     colorProgress(didSucceed, finishedCycles);
     finishedCycles++;
-    if (finishedCycles > 19) finishGame();
+    if (finishedCycles >= cycles) finishGame();
   });
 }
 
 function initProgress(progressBlocks) {
   const progressContainer = document.querySelector("#app .progress");
+  progressContainer.innerText = "";
   for (let i = 0; i < progressBlocks; i++) {
     const progressGroup = document.createElement("div");
-    for (let n = 0; n < 10; n++, i++) {
+    for (let n = 0; n < 10 && i < progressBlocks; n++, i++) {
       const progressItem = document.createElement("span");
       progressItem.classList.add("material-symbols-rounded");
       progressItem.classList.add("progress-item");
@@ -123,9 +137,28 @@ function transform(scale, random) {
   const min = 0,
     max = 3;
   random.value = Math.floor(Math.random() * (max - min + 1)) + min;
-  circle.style.transform = `scale(${scale}) rotate(${direction[random.value]}deg)`;
+  circle.style.transform = `scale(${scale}) rotate(${
+    direction[random.value]
+  }deg)`;
 }
 
 function finishGame() {
-  alert("finish");
+  const finishScreen = document.querySelector("#finish_dialog");
+  updateFinishScreen(counter.succeed, counter.failed);
+  finishScreen.classList.remove("deactivated");
+  document.addEventListener(
+    "keyup",
+    () => {
+      repeatGame();
+    },
+    { once: true }
+  );
+}
+
+function repeatGame() {
+  document.querySelector("#finish_dialog").classList.add("deactivated");
+  counter.succeed = 0;
+  counter.finished = 0;
+  initProgress(cycles);
+  initGame(cycles);
 }

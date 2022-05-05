@@ -58,7 +58,26 @@ body {
   color: pink;
 }
 
-.app-container .hints {
+.finish-dialog {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.finish-dialog__hint {
+  margin: 1rem;
+}
+
+.deactivated {
+  display: none;
+}
+
+.hints {
   font-size: 28px;
   font-family: 'JetBrains Mono', monospace;
   max-width: 1300px;
